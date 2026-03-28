@@ -1,0 +1,9 @@
+target/
+*.class
+*.jar
+*.war
+.env
+application-prod.properties
+*.Zone.Identifier
+.idea/
+*.iml
