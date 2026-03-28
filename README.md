@@ -1,5 +1,18 @@
 # HR System API
 
+## Live Demo
+https://hr-system-production-43a4.up.railway.app
+
+\```bash
+# Health check
+curl https://hr-system-production-43a4.up.railway.app/actuator/health
+
+# Register + get a token
+curl -X POST https://hr-system-production-43a4.up.railway.app/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"demo","password":"demo123","role":"ROLE_ADMIN"}'
+\```
+
 A REST API for employee management built with Spring Boot, demonstrating enterprise Java patterns.
 
 ## Tech Stack
@@ -87,6 +100,7 @@ exception/      Custom exceptions + global error handler
 - **DTO pattern** — API contracts are separate from DB entities; internal fields (like `passwordHash`) never leak to responses
 - **Global exception handler** — consistent JSON error shape across all endpoints
 - **Transactional boundaries** — read-only transactions on queries for performance
+- **JWT key enforcement** — HS256 minimum key length (256 bits) enforced via JJWT's `Keys.hmacShaKeyFor()` — weak keys fail fast at startup rather than silently at runtime
 
 ## Running Tests
 
