@@ -2,8 +2,7 @@
 
 ## Live Demo
 https://hr-system-production-43a4.up.railway.app
-
-\```bash
+```bash
 # Health check
 curl https://hr-system-production-43a4.up.railway.app/actuator/health
 
@@ -11,7 +10,7 @@ curl https://hr-system-production-43a4.up.railway.app/actuator/health
 curl -X POST https://hr-system-production-43a4.up.railway.app/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{"username":"demo","password":"demo123","role":"ROLE_ADMIN"}'
-\```
+```
 
 A REST API for employee management built with Spring Boot, demonstrating enterprise Java patterns.
 
