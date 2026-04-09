@@ -32,10 +32,14 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
         );
 
-        AppUser user = userRepo.findByUsername(auth.getName()).orElseThrow();
+        AppUser user = userRepo.findByUsername(auth.getName())
+                .orElseThrow(() -> new IllegalStateException("Authenticated user not found"));
+
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
 
-        return ResponseEntity.ok(new AuthDto.LoginResponse(token, user.getUsername(), user.getRole().name()));
+        return ResponseEntity.ok(
+                new AuthDto.LoginResponse(token, user.getUsername(), user.getRole().name())
+        );
     }
 
     @PostMapping("/register")
@@ -44,17 +48,13 @@ public class AuthController {
             throw new DuplicateResourceException("Username already taken: " + req.getUsername());
         }
 
-        // Default to ROLE_EMPLOYEE; only ADMINs can create MANAGER/ADMIN accounts
-        // (You'd add @PreAuthorize here in a production system)
-        Role role = Role.ROLE_EMPLOYEE;
-        if (req.getRole() != null) {
-            try { role = Role.valueOf(req.getRole()); }
-            catch (IllegalArgumentException ignored) {}
-        }
+        AppUser user = new AppUser(
+                req.getUsername(),
+                passwordEncoder.encode(req.getPassword()),
+                Role.ROLE_EMPLOYEE
+        );
 
-        AppUser user = new AppUser(req.getUsername(), passwordEncoder.encode(req.getPassword()), role);
         userRepo.save(user);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

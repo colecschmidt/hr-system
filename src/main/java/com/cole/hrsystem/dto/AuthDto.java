@@ -9,6 +9,7 @@ public class AuthDto {
     public static class LoginRequest {
         @NotBlank
         private String username;
+
         @NotBlank
         private String password;
     }
@@ -30,9 +31,8 @@ public class AuthDto {
     public static class RegisterRequest {
         @NotBlank
         private String username;
+
         @NotBlank
         private String password;
-        // Role defaults to ROLE_EMPLOYEE; only ADMIN can assign higher roles
-        private String role;
     }
 }

@@ -9,10 +9,10 @@ curl https://hr-system-production-43a4.up.railway.app/actuator/health
 # Register + get a token
 curl -X POST https://hr-system-production-43a4.up.railway.app/api/v1/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"demo","password":"demo123","role":"ROLE_ADMIN"}'
+  -d '{"username":"demo","password":"demo123"}'
 ```
 
-A REST API for employee management built with Spring Boot, demonstrating enterprise Java patterns.
+A REST API for employee management built with Spring Boot, demonstrating production-style backend architecture and enterprise Java patterns.
 
 ## Tech Stack
 - **Java 21** + Spring Boot 3.2
@@ -50,6 +50,10 @@ docker-compose up
 | PATCH | `/api/v1/employees/{id}` | ADMIN, MANAGER | Update employee |
 | DELETE | `/api/v1/employees/{id}` | ADMIN | Delete employee |
 
+## API Docs (Swagger)
+https://hr-system-production-43a4.up.railway.app/swagger-ui/index.html
+![screenshot](image.png)
+
 ### Example: Login then create an employee
 
 ```bash
@@ -80,6 +84,8 @@ curl -X POST http://localhost:8080/api/v1/employees \
 
 ## Architecture
 
+The system follows a layered architecture with clear separation of concerns, enabling testability, maintainability, and clean security boundaries.
+
 ```
 controller/     HTTP layer — maps routes, delegates to service
 service/        Business logic, validation, mapping
@@ -90,6 +96,13 @@ security/       JWT filter, UserDetailsService
 config/         Spring Security config
 exception/      Custom exceptions + global error handler
 ```
+
+## Testing
+
+- Integration tests using MockMvc + H2 validate authentication and authorization flows
+- Verifies correct HTTP semantics:
+  - 401 Unauthorized for unauthenticated requests
+  - 403 Forbidden for insufficient roles
 
 ## Design Notes
 
